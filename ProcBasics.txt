@@ -1,0 +1,24 @@
+
+~/Docs/Proc/Sketchbook/ProcBasics.txt
+
+Proc app: I have v 2.0.3 = latest that runs on X.6.8
+~/lib/pref/proc/prefs.txt has most font and styles
+Proc.app/cont/reso/java/lib/theme.txt has color, text sizes
+Proc Getting Started errata: oreilly.com/catalog/0639620000570.do
+code examples: Sketchbook/SamplProcCode.pde
+Add Library gets you contributed lib's, makes contrib.txt file in ~/Lib/Proc/
+that makes Proc hog CPU badly; delete it. may be OK on iMac+Proc2
+
+noLoop() in setup or draw runs draw loop once, then stops, leaves window open
+
+exit() stops draw loop, quits app, window closes; 
+if (mousePressed == true){exit()} Quits app
+
+delay(mS) works at start of draw to pause; redraw occurs when draw finishes
+
+do{some stuff once or more?} while(this is true) -- seems OK in Proc, but limited use as both block key entry or window draw ops; maybe useful to calculate, or fill array from incoming data ?
+
+translate(x,y) sets drawing origin (0,0) to x,y  GS p. 106-8
+
+Sys.out.printf("stuff%04.2f", flt/dub)
+
