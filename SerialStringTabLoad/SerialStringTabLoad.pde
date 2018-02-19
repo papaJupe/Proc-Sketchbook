@@ -15,7 +15,6 @@ Graph2D grph;       // obj from above lib to make graph outline
 
 Table volTab;     // or load an old one from disk to continue a plot
 PFont f;            // to display text in window
-//int sendOff = 0;  // 0 or add # being sent by sensor sketch
 
 void setup() 
 {
@@ -52,8 +51,8 @@ void setup()
   textFont(f);  // will be used for applet window text
   //println(Serial.list()); // prints (available) serial ports to console
 
-  // table holds values as strings, must have no blank rows!
- volTab = loadTable("data/03ABC.csv", "header");
+  // table holds values as strings, needs header but no blank rows!
+ volTab = loadTable("data/18-12-06ABC.csv", "header");
   background(255);
 }  // end setup
 
@@ -61,8 +60,8 @@ void draw()   // redraw called by each incoming set of 3 vals
 {   
   background(255);  // if here, clears all on each redraw
   grph.draw(); // the graph outline
-  //  stroke(190); // very lt line for theoretic dc curve 12.5v @ 240"
-  //  line(70, 70, 780, 370); // x= 60+min*3, y=20+(12850-mV)
+  stroke(190); // very lt line for theoretic dc curve 12.5v @ 240"
+  line(70, 70, 780, 370); // x= 60+min*3, y=20+(12850-mV)
   stroke(0);  // draw data darker
   ellipseMode(CENTER); // center on data pt
   

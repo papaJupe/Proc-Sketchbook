@@ -129,7 +129,7 @@ void draw() {
 
 convert serial/udp string data to integer
 --------------------------------------------
-v.
+v. SerialDataRead to Graph, UDP_test_RX_TX
 
 parse digits from string containing it:
 -----------------------------------

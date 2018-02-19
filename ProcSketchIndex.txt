@@ -1,156 +1,188 @@
 
 ~/Docs/Proc/Sketchbook/ProcSketchIndex.txt
 
-AQItoArduA/B --call PHP to get Air Quality # from web, send return strings to Ardu to display
+AQItoArduA/B --call PHP to get Air Quality # from web, send return
+strings to Ardu to display
 
-   Uses handshaking to manage serial data flow to/from the Ardu, loadStrings 
-   from PHP on local server, Serial object/ port; Pfont, frameRate to control looping.
-   B adds display of Ardu feedback in Proc. and more control of Ardu wake up with key press
+Uses handshaking to manage serial data flow to/from the Ardu,
+loadStrings from PHP on local server, Serial object/ port; Pfont,
+frameRate to control looping. B adds display of Ardu feedback in
+Proc. and more control of Ardu wake up with key press
 
-ArraySyntaxByte -- mod from Example 10-07 from "Getting Started with Processing" 
- by Reas & Fry, O'Reilly, Make 2010
- in Proc byte goes -128 to 127, so automatically wraps around @ midscreen
+ArraySyntaxByte -- mod from Example 10-07 from "Getting Started with
+Processing" by Reas & Fry, O'Reilly, Make 2010 in Proc byte goes
+-128 to 127, so automatically wraps around @ midscreen
 
-  Uses: byte array syntax, draw some moving arcs to window
-  
-DardOmov --
-	moves DardO according to mouse speed -- inside app window only
-	Uses:rectMode,rect,triangle,arc,ellipse,mouseX,moving avg
+Uses: byte array syntax, draw some moving arcs to window
 
-DisplayTypeText --
-  keyboard text entry, save to string, display string in app window
-  Uses Pfont, createFont, textFont, text(display), keyPressed
-  
-GraphingPattern --
-  // Graphing background pattern, my experiment far inferior to library
+DardOmov -- moves DardO according to mouse speed -- inside app
+window only Uses:rectMode,rect,triangle,arc,ellipse,mouseX,moving
+avg
 
-LoadFile2Vals --
-  Load text file as String[] - each line of file makes 1 array element
- then split and cast tokens to int array for each line; then display vals
- in bar-graph
- Uses: loadStrings, split line to make # array
+DisplayTypeText -- keyboard text entry, save to string, display
+string in app window Uses Pfont, createFont, textFont,
+text(display), keyPressed
 
-LoadFileTryFails --
-  failed mod of LoadFile2Vals, try/catch -> exit, doesn't -- many problems
-  
-LP Example 19-08 read serial bytes
-  LP Example 19-8 (says 19-7 in book): Reading from serial port -- single bytes sent
-  // from Ardu, as in SensorReaderGrapher using .write
-  Uses: Serial, port config, serialEvent, port read
+GraphingPattern -- // Graphing background pattern, my experiment far
+inferior to library
 
-MatchIntinStringA -- attempt to match multiple similar things in string
- -- match returns only first one; to find more than 1 I use matchAll --> 2D array
-Uses: match, matchAll
+LoadFile2Vals -- Load text file as String[] - each line of file
+makes 1 array element then split and cast tokens to int array for
+each line; then display vals in bar-graph Uses: loadStrings, split
+line to make # array
+
+LoadFileTryFails -- failed mod of LoadFile2Vals, try/catch -> exit,
+doesn't -- many problems
+
+LP Example 19-08 read serial bytes LP Example 19-8 (says 19-7 in
+book): Reading from serial port -- single bytes sent // from Ardu,
+as in SensorReaderGrapher using .write Uses: Serial, port config,
+serialEvent, port read
+
+MatchIntinStringA -- attempt to match multiple similar things in
+string -- match returns only first one; to find more than 1 I use
+matchAll --> 2D array Uses: match, matchAll
 
 Match Ints in String B -- take messy string and extract the integers
-  version A (v.s.) did it with matchAll's 2D array; version B is still more complicated
-  than it should be, but works; try to add float extraction?
-  Uses: splitTokens,StringList,match,conv. to array,parseInt,replaceAll
-  
+version A (v.s.) did it with matchAll's 2D array; version B is still
+more complicated than it should be, but works; try to add float
+extraction? Uses: splitTokens,StringList,match,conv. to
+array,parseInt,replaceAll
+
 Match Ints in String C -- using Pattern/Matcher J util w/ regex
-   still way more complex than matchAll; TODO try to add float extraction ?
-   Uses: splitTokens,replaceAll,Pattern.compile,.matcher,.find,append,.group
+still way more complex than matchAll; TODO try to add float
+extraction ? Uses:
+splitTokens,replaceAll,Pattern.compile,.matcher,.find,append,.group
 
-PongHandshaking --
-   4 values sent serially from Ardu, parsed as ints, to control game objects in window,
-   Uses: Serial,Pfont,text to window,keyPressed,readStringUntil, handshaking to 
-   manage serial data flow to/from the Ardu,serialEvent,split
-   
-Serial String Reader, mod from Igoe MTT ch2, proj2 
-   Pairs with Ardu (SensorReader) sending int data strings; Ardu sends a string
-   when it gets a char sent from Proc; v.i. KeyPressed code; mod code to send repeatedly;
-   
-   Reads in a string of characters from a serial port until it gets a linefeed (ASCII 10).
-   Then splits csv string into tokens. Then converts them to ints, and prints.
-   Handshaking added so Ardu just sends when a key is pressed.
+PongHandshaking -- 4 values sent serially from Ardu, parsed as ints,
+to control game objects in window, Uses: Serial,Pfont,text to
+window,keyPressed,readStringUntil, handshaking to manage serial data
+flow to/from the Ardu,serialEvent,split
 
-Serial String Reader 3, from Igoe MTT ch2, proj2, major mods by AM 1512
+SerialDataRead to Graph -- send serial bytes to stimulate response
+ from device like Ardu w/ sensor which responds w/ 2 byte data. Plot 
+ data to graph, works fine w/ Ardu Mega sketch USsr04megaSerTX sending
+ ultrasound distances over USB UART serial or probably BT2 module
+ Serial read code specific for 2 byte int, does not buffer input
  
- Pairs with Ardu's SensorReader3 sending int csv data strings autonomously,
- or when it gets a char sent from Proc; v.i. KeyPressed code (handshaking optional); 
- 
- Reads a string of characters from the serial port until it gets a linefeed (ASCII 10).
- Then splits the string into tokens separated by commas, puts into str array and prints
- them to console and app window. Makes a Table to hold the values, saves it.
- Uses: Serial,bufferUntil,readString,split,trim,Table & methods
+Serial String Reader, mod from Igoe MTT ch2, proj2 Pairs with Ardu
+(SensorReader) sending int data strings; Ardu sends a string when it
+gets a char sent from Proc; v.i. KeyPressed code; mod code to send
+repeatedly;
 
-Serial String Reader 4 -- 
- Pairs with Ardu's SensorReader4 sending 3 int csv data strings autonomously,
- or when it gets a char sent from Proc; v.i. KeyPressed code, if handshaking 
- 
- Reads a string of characters from the serial port until it gets a linefeed (ASCII 10).
- Then splits the string into tokens separated by commas, puts into str array and prints
- them to console and app window. Makes a Table to hold the values, saves it on key 's';
- serialEvent meth graphs the values to the window as they arrive, overwriting from 
- serialEvent meth.
- 
- Uses: Serial,bufferUntil,readString,split,trim,Table & methods,gwoptic lib-Graph2D
+Reads in a string of characters from a serial port until it gets a
+linefeed (ASCII 10). Then splits csv string into tokens. Then
+converts them to ints, and prints. Handshaking added so Ardu just
+sends when a key is pressed.
 
-Serial String Reader 5 -- 
- Pairs with Ardu's SensorReader4 sending 3 int csv data strings autonomously,
- or when it gets a char sent from Proc; v.i. KeyPressed code, if handshaking 
+Serial String Read BT 
+ Pairs with Ardu SensorReader sending int data strings; Ardu sends a string
+ when it gets a char sent from Proc; e.g. KeyPressed code; mod to send/recv 
+ repeatedly; Serial read code here uses input buffer for Strings
  
- Reads a string of characters from the serial port until it gets a linefeed (ASCII 10).
- Then splits the string into tokens separated by commas, puts into str array and prints
- them to console and app window. Makes a Table to hold the values, saves it on key 's';
- serialEvent meth graphs the values to the window as they arrive. this (v.5) reads 
- stored vals in draw loop from Table when any new set arrives, adds backgnd gridlines
+ Also reads strings sent from Energia sketch like ReadBattVolt2LCD to monitor
+ of batt dc. Also used w/ Ardu USsr04megaSerTxBT and various BT modules trying
+ to get transparent wireless serial Ardu to PC/Mac. Works w/ H3 (dual 2/4 mode) 
+ which has BT 2 SPP service: w/ native BT or Broadcom BT multi dongle on iMac,
+ I turn on BT, Pair w/ H3, then can set code to open one of its ser ports 
+ /dev/cu.H3SPPDev et al. Will auto-connect when ser port active, disconnect when I 
+ close applet. team Leno PC with CSR BT multi dongle also can set up Ser port
+ and connect to it (via Ardu ser. mon.)
  
- Uses: Serial,bufferUntil,readString,split,trim,Table & methods,gwoptic lib-Graph2D,
- setYAxisLabelFont, GridBackground
+Serial String Reader 3, from Igoe MTT ch2, proj2, major mods by AM
+1512
 
-Serial String Read 5 4V -- made for energia readBattVolt of 4 v. LiIon,
- sending 3 int csv data strings autonomously, or when it gets a char sent
- from Proc. KeyPressed code, if handshaking. Works over USB or BT slave
- mounted to MSP's ser I/O
- 
- Reads a string of characters from the serial port until it gets a linefeed (ASCII 10).
- Then splits the string into tokens separated by commas, puts into str array and prints
- them to console and app window. Makes a Table to hold the values, saves it on key 's';
- serialEvent method graphs the values to the window as they arrive. this (v.5) reads 
- stored vals in draw loop from Table when any new set arrives, adds backgnd gridlines
- & has optional lines to load old table and add to it.
- 
- Uses: Serial,bufferUntil,readString,split,trim,Table & methods,gwoptic lib-Graph2D,
- setYAxisLabelFont,GridBackground,serial write of key, loadTable
- 
-Serial String Reader Grapher --
-   Reads int (as string of characters) from a serial port, (e.g. sent by Ardu running
-   SensorReaderGraph), until it gets a linefeed (ASCII 10).
-   Then trims spaces and returns, and graphs ints to app window.
-   Uses: Serial, serialEvent, keyPressed,bufferUntil,readStringUntil,trim,drawGraph
+    Pairs with Ardu's SensorReader3 sending int csv data strings
+    autonomously, or when it gets a char sent from Proc; v.i. KeyPressed
+    code (handshaking optional);
+    
+    Reads a string of characters from the serial port until it gets a
+    linefeed (ASCII 10). Then splits the string into tokens separated by
+    commas, puts into str array and prints them to console and app
+    window. Makes a Table to hold the values, saves it. Uses:
+    Serial,bufferUntil,readString,split,trim,Table & methods
 
-Servo mega Tx Rx BT, control via BT I/O
- 
- mod by AM for I/O w/ Ardu Mega + BT mod, send bytes, get
- back ack; this mod sends u or d to control servo tilt,
- later mods add GUI, joystick button controls w/ Enjoyable
- app (looks like it sends capital letter but really small)
- 
- Ardu code: Servo Mega tx rx Bluetooth
- Use: config BT mod on Ardu, enable BT on PC, Pair; for Joystk, open
- Enjoyable, enable actions >, then run this, ID port, click in applet
- window for joystick to work; once Paired, hc-xx says 'not connected'
- but when you reopen serial connection it auto-connects again
-     
-Store Values in cyclic Array--
- *orig: Proc/Help/Basic/Input/Storing Input 
- * Uses: frameRate,%modulo,cyclic write to update array w/ mouse X,Y
- 
-TableVoltageA -- mod from LP Ex 18-03
-  template for a Table to store voltage dc readings: time,volt,curr in local txt or csv file;
-  Uses: Table,loadTable,new Table,set contents,print contents
-  
-Timed Drawing --
-   failed with do / while or while -- seems to block key entry, drawing -- limited fx in Proc, 
-   same with delay(); here I use conditional and delay to time-control drawing actions; 
-   or draw loop could call another timer function
-   
- UDP mega Servo GUI v 2 --
-   tx/rx control w/ UDP over wifi -- Ardu;
- folder has gui tab made w/ GUI builder w/ handler that prints
-    value to lable
- mod by AM for I/O w/ Ardu Mega + ESP shield, send bytes, get
- back ack; rx tx mod sends key u or d to control servo on Mega,
- this adds GUI slider read/send servo angle from slider;
- later mod add joystick button controls using GameControlPlus lib
+Serial String Reader 4 -- Pairs with Ardu's SensorReader4 sending 3
+int csv data strings autonomously, or when it gets a char sent from
+Proc; v.i. KeyPressed code, if handshaking
+
+Reads a string of characters from the serial port until it gets a
+linefeed (ASCII 10). Then splits the string into tokens separated by
+commas, puts into str array and prints them to console and app
+window. Makes a Table to hold the values, saves it on key 's';
+serialEvent meth graphs the values to the window as they arrive,
+overwriting from serialEvent meth.
+
+Uses: Serial,bufferUntil,readString,split,trim,Table &
+methods,gwoptic lib-Graph2D
+
+Serial String Reader 5 -- Pairs with Ardu's SensorReader4 sending 3
+    int csv data strings autonomously, or when it gets a char sent from
+    Proc; v.i. KeyPressed code, if handshaking
+    
+    Reads a string of characters from the serial port until it gets a
+    linefeed (ASCII 10). Then splits the string into tokens separated by
+    commas, puts into str array and prints them to console and app
+    window. Makes a Table to hold the values, saves it on key 's';
+    serialEvent meth graphs the values to the window as they arrive.
+    this (v.5) reads stored vals in draw loop from Table when any new
+    set arrives, adds backgnd gridlines
+    
+    Uses: Serial,bufferUntil,readString,split,trim,Table &
+    methods,gwoptic lib-Graph2D, setYAxisLabelFont, GridBackground
+
+Serial String Read 5 4V -- made for energia readBattVolt of 4 v.
+    LiIon, sending 3 int csv data strings autonomously, or when it gets
+    a char sent from Proc. KeyPressed code, if handshaking. Works over
+    USB or BT slave mounted to MSP's ser I/O
+    
+    Reads a string of characters from the serial port until it gets a
+    linefeed (ASCII 10). Then splits the string into tokens separated by
+    commas, puts into str array and prints them to console and app
+    window. Makes a Table to hold the values, saves it on key 's';
+    serialEvent method graphs the values to the window as they arrive.
+    this (v.5) reads stored vals in draw loop from Table when any new
+    set arrives, adds backgnd gridlines & has optional lines to load old
+    table and add to it.
+    
+    Uses: Serial,bufferUntil,readString,split,trim,Table &
+    methods,gwoptic lib-Graph2D, setYAxisLabelFont,GridBackground,serial
+    write of key, loadTable
+
+Serial String Reader Grapher -- Reads int (as string of characters)
+from a serial port, (e.g. sent by Ardu running SensorReaderGraph),
+until it gets a linefeed (ASCII 10). Then trims spaces and returns,
+and graphs ints to app window. Uses: Serial, serialEvent,
+keyPressed,bufferUntil,readStringUntil,trim,drawGraph
+
+Servo mega Tx Rx BT, control via BT I/O mod by AM for I/O w/ Ardu
+    Mega + BT module, send bytes, get back ack; this mod sends u or d to
+    control servo tilt, later mods add GUI, joystick button controls w/
+    Enjoyable app (looks like it sends capital letter but really small)
+    and GCP Configurator
+    
+    Ardu code: Servo Mega tx rx Bluetooth Use: config BT mod on Ardu,
+    enable BT on PC, Pair; for Joystk, open Enjoyable, enable actions >,
+    then run this, ID port, click in applet window for joystick to work;
+    once Paired, hc-xx says 'not connected' but when you reopen serial
+    connection it auto-connects again
+
+Store Values in cyclic Array-- *orig: Proc/Help/Basic/Input/Storing
+Input * Uses: frameRate,%modulo,cyclic write to update array w/
+mouse X,Y
+
+TableVoltageA -- mod from LP Ex 18-03 template for a Table to store
+voltage dc readings: time,volt,curr in local txt or csv file; Uses:
+Table,loadTable,new Table,set contents,print contents
+
+Timed Drawing -- failed with do / while or while -- seems to block
+key entry, drawing -- limited fx in Proc, same with delay(); here I
+use conditional and delay to time-control drawing actions; or draw
+loop could call another timer function
+
+UDP mega Servo GUI v 2 -- tx/rx control w/ UDP over wifi -- Ardu;
+folder has gui tab made w/ GUI builder w/ handler that prints value
+to label mod by AM for I/O w/ Ardu Mega + ESP shield, send bytes,
+get back ack; rx tx mod sends key u or d to control servo on Mega,
+this adds GUI slider read/send servo angle from slider; later mod
+add joystick button controls using GameControlPlus lib

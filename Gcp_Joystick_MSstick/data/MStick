@@ -1,0 +1,5 @@
+SAMPLE shadowmaker
+X	Xposition 	3	SLIDER	x	0	1.0	0.05
+Y	Yposition	3	SLIDER	y	0	1.0	0.05
+SHADOW	dropShade	1	BUTTON	2	0	0.0	0.0
+TRAIL	leveTrail	1	BUTTON	3	0	0.0	0.0

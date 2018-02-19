@@ -53,8 +53,8 @@ void draw()
   // otherwise text just overwrites, but doesn't clear old text
   fill(#ffffff);  // text is white against blue-gray
 
-  if (keyPressed)  // any key press sends char to stimulate
-  {         // Ardu to send a line; not used if Ardu sending autonomously
+  if (keyPressed)  // any key press sends char to stimulate Ardu
+  {         // to send a line; not used if Ardu sending autonomously
     myPort.write('z');
     delay(120);  // avoids repeat reads of key & repeat sends by Ardu
   }
@@ -92,7 +92,7 @@ void serialEvent(Serial myPort) // watch myPort for events, buffer filled
 //    resultString += sensors[sensorNum] + "\t";
 //  }  // end for
 
-    //  draw prints this to applet window
+    //  draw loop prints this to applet window
   resultString += "elapsed min. ";  //  just the numbers with spaces
   for (int sensorNum = 0; sensorNum < sensors.length; sensorNum++) 
     {

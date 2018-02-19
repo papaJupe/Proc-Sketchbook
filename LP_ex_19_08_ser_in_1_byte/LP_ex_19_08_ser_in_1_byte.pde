@@ -1,6 +1,6 @@
 
-/* LP Example 19-8 (says 19-7 in book): Reading from serial port -- single bytes sent
-// from Ardu, as in SensorReaderGrapher using .write
+/* LP Example 19-8 (says 19-7 in book): Reading from serial port 
+-- single bytes sent from Ardu, as in SensorReaderGrapher using .write
 Uses: Serial, port config, serialEvent, port read
 */
 import processing.serial.*;

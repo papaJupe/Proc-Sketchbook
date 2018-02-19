@@ -2,7 +2,7 @@
  GUI servo test, template combines code of blankGUI and
  Proc2 UDP mega Servo GUI control over wifi -- send / recv data;
  folder has gui tab made w/ GUI builder before, has handler
- that prints value to lable
+ that prints value to label
  mod by AM for I/O w/ Ardu Mega + ESP shield, send bytes, get
  back ack; rx tx mod sends key u or d to control servo on Mega,
  this adds GUI slider read/send servo angle from slider;

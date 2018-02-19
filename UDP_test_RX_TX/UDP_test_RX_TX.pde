@@ -76,12 +76,12 @@ void receive( byte[] data )   // < default handler
     println(val);  // don't want \n until all data prints
      }
    else {
-  for (int i=0; i < data.length; i++)
-    {  //print(data[i]); // 2 bytes + 0 if string sent
-      //println(i +"\t" + data[i]);
-      print(char(data[i])); // if data is char[] prints chars, nothing if null
-      // print(str(data));  //prints byte val of chars including null @ end
-    }  // end for
+      for (int i=0; i < data.length; i++)
+        {  //print(data[i]); // 2 bytes + 0 if string sent
+          //println(i +"\t" + data[i]);
+          print(char(data[i])); // if data is char[] prints chars, nothing if null
+          // print(str(data));  //prints byte val of chars including null @ end
+        }  // end for
    }  // end else
  println(); 
 

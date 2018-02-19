@@ -1,7 +1,9 @@
 /* SerialDataRead to Graph -- send serial bytes to stimulate response
  from device like Ardu w/ sensor which responds w/ 2 byte data. Plot 
  data to graph, works fine w/ Ardu Mega sketch USsr04megaSerTX sending
- ultrasound distances
+ ultrasound distances over USB UART serial or probably BT2 module
+ Serial read code specific for 2 byte int, does not buffer input
+ 
  */
 
 // import  libraries
@@ -30,7 +32,8 @@ void setup() {
   // println(Serial.list());
   String portName = Serial.list()[1];
   println("port:" + portName);
-  myPort = new Serial(this, portName, 9600); // must match Ardu sketch's
+  myPort = new Serial(this, portName, 9600); // must match UART module,
+     // probably not Ardu sketch's if using BT mod on Ardu
   
   // set size of the window
   size (740, 450);
