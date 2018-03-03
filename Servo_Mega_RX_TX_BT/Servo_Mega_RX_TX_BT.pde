@@ -1,5 +1,5 @@
-/* Proc2 Servo mega Tx Rx BT, control via BT I/O, should work over
-  normal serial (USB-TTL dongle to mega's Ser2) too
+/* Proc2 Servo mega Tx Rx BT, control via BT I/O; also works over
+  normal serial (USB-TTL dongle to mega's Ser2)
  
  mod by AM for I/O w/ Ardu Mega + BT module, send bytes, get
  back ack; this mod sends u or d to control servo tilt,
@@ -19,13 +19,13 @@ import processing.serial.*;     // import the Processing serial library
 
 Serial myPort;
 
-void setup() 
+void setup() dd
 {  
   size(300, 150);  // ? need to click in applet to use keys/joystk
   // get the # of your port from the serial.list.
   println(Serial.list());  // SPP port from BT2 connection or just USB
 
-  String portName = Serial.list()[3];  // 
+  String portName = Serial.list()[5];  // 
   // open the serial port:
   myPort = new Serial(this, portName, 9600); // speed = BT /UART baud
   // applet can only seize port if not in use: ? close Ardu/Energia IDE or set
@@ -62,7 +62,7 @@ void serialEvent(Serial myPort) // watch myPort for events, buffer fill
 
   // trim space, return, linefeed from the input string, using Java meth.
   inputString = inputString.trim(); // was trim(inputString)-failed w/ flt
-
+ // incoming space makes new line for next string
   println(inputString);  // to console -- trimmed, unparsed
 }  // end serEvent
 
