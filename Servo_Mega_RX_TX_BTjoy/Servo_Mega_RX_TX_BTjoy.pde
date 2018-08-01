@@ -7,10 +7,10 @@
  libs which can read/send analog values + button bools
  
  Ardu code: Servo Mega tx rx Bluetooth
- Use: config BT mod on Ardu, enable BT on PC, Pair, for Joystk, config
+ Use: config BT mod on Ardu, enable BT on PC, Pair; for Joystk, make config
  file w/ Configurator app or text editor, then run this, ID port, click
- in applet window for joystick to work; once Paired, hc-xx says 
- 'not connected' but when you reopen serial connection it auto-connects
+ in applet window for joystick to work; once Paired, in BT prefs hc-xx says 
+ 'not connected' but when you reopen serial connection it reconnects
  
  */
 
@@ -41,7 +41,7 @@ void setup()
   myPort.bufferUntil('\n'); // used to see ack
 
   // Initialise the ControlIO for joystk
-  control = ControlIO.getInstance(this);
+  control = ControlIO.getInstance(this); // this ?= Papplet instance
   // Find a device that matches a configuration file in /data dir
   stick = control.getMatchedDevice("MSstickServo");
   if (stick == null) {
@@ -58,7 +58,7 @@ public void getUserInput()
   x = round(map(stick.getSlider("X").getValue(), -1, 1, 20, 30));
   y = round(map(stick.getSlider("Y").getValue(), -1, 1, 10, 0));
   up = stick.getButton("UP").pressed(); // "NAME" of input channels
-  down = stick.getButton("DOWN").pressed();
+  down = stick.getButton("DOWN").pressed(); // global bools
   left = stick.getButton("LEFT").pressed();
   right = stick.getButton("RIGHT").pressed();
 }  // end getUserInput

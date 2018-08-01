@@ -45,7 +45,7 @@ void setup()
   // on iMac msp6989 is [4] cu.usbmodFD143 or [9] tty.usbmodFD143
   // and Ardu is [1]cu or [3]tty; BT module [0, 2] H3 mod [1..3]
 
-  String portName = Serial.list()[3];
+  String portName = Serial.list()[6];
   // open the serial port:
   myPort = new Serial(this, portName, 9600);
   // applet can only seize port if not in use: close Ardu IDE or set it

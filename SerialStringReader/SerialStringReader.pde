@@ -5,7 +5,7 @@
  Pairs with Ardu doing SensorReader sending int data strings; Ardu sends a string
  when it gets a char sent from Proc; v.i. KeyPressed code; mod to send/recv repeatedly;
  Also reads strings sent from Energia sketch like ReadBattVolt2LCD for rough monitor
- of batt dc.
+ of batt dc, 2waySerial on Mega
  
  Reads in a string of characters from a serial port until it gets a linefeed (ASCII 10).
  Then splits the string into sections separated by commas. Then converts the sections 
@@ -24,7 +24,7 @@ PFont f;                  // to display text in window
 void setup() 
 {
   size(300, 130);             // set the size of the applet window
-  f = createFont("Arial",14);
+  f = createFont("Arial", 14);
   textFont(f);  // font used in applet window
   println(Serial.list());     // prints (available) serial ports to console
 
@@ -35,15 +35,18 @@ void setup()
   // on iMac msp6989 is cu.usbmodFD1__ or tty.usbmodFD1__ (use higher #)
   //    and Ardu is [1]cu or [3]tty
 
-  String portName = Serial.list()[1];
+  String portName = Serial.list()[6];
   // open the serial port:
   myPort = new Serial(this, portName, 9600);
   // applet can only seize port if not in use: close Ardu IDE or set it
   // to use different port than the board is using;
   // when you Quit Proc. applet releases port, so Ardu can reconnect
 
-  // set Serial to read bytes into a buffer until you get a linefeed (ASCII 10):
-   myPort.bufferUntil('\n');
+  // set Serial to read bytes into a buffer until you get a linefeed (ASCII 10)
+  // or N # of bytes
+   myPort.bufferUntil('\n');// trigger serEvent when gets \n; print(x) doesn't
+   // myPort.buffer(16);  // triggers serEvent when __ bytes comes; must match 
+  // length exactly or will over/underrun; str.len + 2 if sending println
 }  // end setup
 
 void draw() 
@@ -58,24 +61,32 @@ void draw()
     myPort.write('z');
     delay(120);  // avoids repeat reads of key & repeat sends by Ardu
   }
-  
+
   // display parsed result string in appl window if anything to show:
   if (resultString != null) 
-      text(resultString, 24, height/2);  // what,x,y
-    // else  text(inputString, 24, height/2);
+    text(resultString, 24, height/2);  // what,x,y
+  // else  text(inputString, 24, height/2);
   delay(200);
 }  // end draw
 
 // serialEvent  method is run automatically by the Processing sketch
-// whenever the buffer reaches the byte value set in the bufferUntil() 
-// method in setup()
-
+// whenever the buffer reaches the byte value/len set in the bufferUntil() 
+// or buffer(#) method in setup()
+// does this param name need to be the actual Ser object?
 void serialEvent(Serial myPort) // watch myPort for events, buffer filled
 { 
-//  // read the serial buffer -- use if data comes as str of chars
+    // read the serial buffer -- use if data comes as str of chars
   String inputString = myPort.readString(); // was readStringUntil('\n')
-  // supposed to exclude final \n, but no difference here +/- trim
+    // (supposed to exclude final \n), but no difference here +/- trim
+    
+//  String inputString = "";
+//  byte[] inBite = new byte[12];  // size of array limits # of bytes read
+//  myPort.readBytes(inBite);
+//  if (inBite != null) {
+//    inputString = new String(inBite);
+//  }
 
+  //while (myPort.read() > 0) myPort.clear();   // didn't work before
   // trim space, return, linefeed, from the input string, using Java meth.
   inputString = inputString.trim(); // was =trim(inputString)-- didn't work w/ flt
   // clear the resultString
@@ -85,22 +96,27 @@ void serialEvent(Serial myPort) // watch myPort for events, buffer filled
   // and put the tokens into [int,flt,str] array sensors[]: all types work, but
   String sensors[] = split(inputString, ',');    // str best for getting floats
 
-   // add the values to the result string: name + value
-// for (int sensorNum = 0; sensorNum < sensors.length; sensorNum++) 
-//  {
-//    resultString += "Sensor " + sensorNum + ": ";
-//    resultString += sensors[sensorNum] + "\t";
-//  }  // end for
+  // add the values to the result string: name + value
+  // for (int sensorNum = 0; sensorNum < sensors.length; sensorNum++) 
+  //  {
+  //    resultString += "Sensor " + sensorNum + ": ";
+  //    resultString += sensors[sensorNum] + "\t";
+  //  }  // end for
 
-    //  draw loop prints this to applet window
+  //  draw loop prints this to applet window
   resultString += "elapsed min. ";  //  just the numbers with spaces
   for (int sensorNum = 0; sensorNum < sensors.length; sensorNum++) 
-    {
-      resultString += sensorNum + ": ";
-      resultString += sensors[sensorNum] + "  ";  // spaces work, tabs don't
-    }  // end for
-   
+  {
+    resultString += sensorNum + ": ";
+    resultString += sensors[sensorNum] + "  ";  // spaces work, tabs don't
+  }  // end for
+
   // print resultStr to the console
   // println(resultString);
   println(inputString);  // to console -- unparsed, untrimmed
+  inputString = "";
+    // Clear the serial buffer, or available() will still be > 0:
+   myPort.clear();  // didn't clear it
+  // while (myPort.available() > 0) myPort.read(); // nor did this
 }  // end serEvent
+

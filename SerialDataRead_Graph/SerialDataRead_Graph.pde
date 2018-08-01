@@ -2,7 +2,7 @@
  from device like Ardu w/ sensor which responds w/ 2 byte data. Plot 
  data to graph, works fine w/ Ardu Mega sketch USsr04megaSerTX sending
  ultrasound distances over USB UART serial or probably BT2 module
- Serial read code specific for 2 byte int, does not buffer input
+ Serial read code specific for 2 byte int (hi/lo), does not buffer input
  
  */
 

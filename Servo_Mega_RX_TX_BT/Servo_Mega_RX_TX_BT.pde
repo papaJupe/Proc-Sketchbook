@@ -19,7 +19,7 @@ import processing.serial.*;     // import the Processing serial library
 
 Serial myPort;
 
-void setup() dd
+void setup()
 {  
   size(300, 150);  // ? need to click in applet to use keys/joystk
   // get the # of your port from the serial.list.

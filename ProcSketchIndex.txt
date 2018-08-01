@@ -10,7 +10,7 @@ frameRate to control looping. B adds display of Ardu feedback in
 Proc. and more control of Ardu wake up with key press
 
 ArraySyntaxByte -- mod from Example 10-07 from "Getting Started with
-Processing" by Reas & Fry, O'Reilly, Make 2010 in Proc byte goes
+Processing" by Reas & Fry, O'Reilly, Make 2010 --  in Proc byte goes
 -128 to 127, so automatically wraps around @ midscreen
 
 Uses: byte array syntax, draw some moving arcs to window
@@ -69,24 +69,26 @@ Serial String Reader, mod from Igoe MTT ch2, proj2 Pairs with Ardu
 (SensorReader) sending int data strings; Ardu sends a string when it
 gets a char sent from Proc; v.i. KeyPressed code; mod code to send
 repeatedly;
-
-Reads in a string of characters from a serial port until it gets a
-linefeed (ASCII 10). Then splits csv string into tokens. Then
-converts them to ints, and prints. Handshaking added so Ardu just
-sends when a key is pressed.
-
+Uses: serial.buffer(#) or serial.buffer(ch)
+  // set Serial to read bytes into a buffer until you get a linefeed (ASCII 10)
+  // or set # of bytes
+   myPort.bufferUntil('\n');// trigger serEvent when gets \n; print(x) doesn't
+  // myPort.buffer(18);  // triggers serEvent when __ bytes comes; must match 
+     // length exactly or will over/underrun; str.len + 2 if sending println
+  trials of readString,  port.readBytes(array to fill or all)
+  
 Serial String Read BT 
  Pairs with Ardu SensorReader sending int data strings; Ardu sends a string
  when it gets a char sent from Proc; e.g. KeyPressed code; mod to send/recv 
  repeatedly; Serial read code here uses input buffer for Strings
  
  Also reads strings sent from Energia sketch like ReadBattVolt2LCD to monitor
- of batt dc. Also used w/ Ardu USsr04megaSerTxBT and various BT modules trying
+ batt dc. Also used w/ Ardu USsr04megaSerTxBT and various BT2 modules trying
  to get transparent wireless serial Ardu to PC/Mac. Works w/ H3 (dual 2/4 mode) 
  which has BT 2 SPP service: w/ native BT or Broadcom BT multi dongle on iMac,
  I turn on BT, Pair w/ H3, then can set code to open one of its ser ports 
  /dev/cu.H3SPPDev et al. Will auto-connect when ser port active, disconnect when I 
- close applet. team Leno PC with CSR BT multi dongle also can set up Ser port
+ stop applet. team Leno PC with CSR BT multi dongle also can set up Ser port
  and connect to it (via Ardu ser. mon.)
  
 Serial String Reader 3, from Igoe MTT ch2, proj2, major mods by AM
