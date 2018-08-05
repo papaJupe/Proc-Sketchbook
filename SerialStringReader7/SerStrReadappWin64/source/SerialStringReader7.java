@@ -1,5 +1,28 @@
-/* 
- Serial String Reader 6 -- for Win32 export, use Serial.list[1], or portName="COM_" prn ?
+import processing.core.*; 
+import processing.data.*; 
+import processing.event.*; 
+import processing.opengl.*; 
+
+import processing.serial.*; 
+import org.gwoptics.graphics.*; 
+import org.gwoptics.graphics.graph2D.*; 
+import org.gwoptics.graphics.graph2D.Graph2D; 
+import org.gwoptics.graphics.graph2D.backgrounds.*; 
+
+import java.util.HashMap; 
+import java.util.ArrayList; 
+import java.io.File; 
+import java.io.BufferedReader; 
+import java.io.PrintWriter; 
+import java.io.InputStream; 
+import java.io.OutputStream; 
+import java.io.IOException; 
+
+public class SerialStringReader7 extends PApplet {
+
+/* v 7 mod graphix parmas for Lion batt dc to 11.x or something 
+
+ Serial String Reader 7 -- for Win32 export, use Serial.list[1], or portName="COM_" prn ?
  C:\\path for data save. With energia on PC this still works, COM11 is 2nd on list, i.e. [1]
  Pairs with Ardu's SensorReader4, voltSamp6, energia voltSamp, sending 3 int csv data strings 
  autonomously, or when it gets a char sent from Proc. KeyPressed code, if handshaking 
@@ -16,39 +39,38 @@
  */
 
 // pared import list to just what's needed
-import processing.serial.*;  // import the Proc serial library
-import org.gwoptics.graphics.*;  // graphing libs only work in Proc 2
-import org.gwoptics.graphics.graph2D.*;
-import org.gwoptics.graphics.graph2D.Graph2D;
-import org.gwoptics.graphics.graph2D.backgrounds.*;
+  // import the Proc serial library
+  // graphing libs only work in Proc 2
+
+
+
 
 GridBackground gb;
 
 Graph2D grph;       // obj from above lib to make graph outline
-// int counter = 1; // how many times n (new pt) key pressed
 
 Serial myPort;          // the serial port
 String resultString;  // string holds the input data for printing
 VolTable volTab;    // table to store incoming vals for file and graph
 PFont f;            // to display text in window
 
-void setup() 
+public void setup() 
 {
-  size(930, 540); // window size 90 px larger than graph
+  size(930, 740); // window size 90 px larger than graph
 
   // make the Graph2D object,
   // arguments are : parent object, xsize, ysize, cross axes at zero pt
-  grph = new Graph2D(this, 840, 450, false);
+  grph = new Graph2D(this, 840, 650, false);
   // set properties of the X , Y Axes
-  grph.setYAxisMin(12.4f);
-  grph.setYAxisMax(12.85f);  // 450 px ht = 450 mV
-  grph.setXAxisMin(0);
+  grph.setYAxisMin(11.5f);  // voltage range
+  grph.setYAxisMax(12.8f);  // 650 px ht = 1300 mV, 2mv/px
+  grph.setXAxisMin(0);  // time of dc
   grph.setXAxisMax(280); // 840 px/3 = 280 min, 3 px/min
   grph.setXAxisLabel("minutes");
   grph.setYAxisLabel("voltage");
   grph.setXAxisLabelAccuracy(0);  // # of decimal places shown
   grph.setXAxisTickSpacing(30);  // major ticks
-  grph.setYAxisTickSpacing(0.1);
+  grph.setYAxisTickSpacing(0.1f);  // every 0.1 v
   grph.setYAxisMinorTicks(4); // # of ticks between each major tick, 5 divisions
 
   // Offset of the top left corner of the plotting area
@@ -85,12 +107,12 @@ void setup()
   background(255);
 }  // end setup
 
-void draw()   // redraw called by each incoming set of 3 vals
+public void draw()   // redraw called by each incoming set of 3 vals
 {   
   background(255);  // if here, clears all on each redraw
   grph.draw(); // the graph outline
-  stroke(190); // very lt line for theoretic dc curve 12.5v @ 240"
-  line(70, 70, 780, 370); // x= 60+min*3, y=20+(12850-mV)
+//  stroke(190); // very lt line for theoretic dc curve 12.5v @ 240"
+//  line(70, 70, 780, 370); // x= 60+min*3, y=20+(12850-mV)
   stroke(0);  // data pts will be filled circles
   ellipseMode(CENTER); // center on data pt
   // get vals by iterating over rows in table where they are stored
@@ -100,12 +122,12 @@ void draw()   // redraw called by each incoming set of 3 vals
     {   // seems to start index and rowCnt @ vals not header
       TableRow row = volTab.getRow(i);
       // You can addr the fields by column name (or index)
-      int m  = int(row.getString("min"));
-      int v = int(row.getString("mV"));
+      int m  = PApplet.parseInt(row.getString("min"));
+      int v = PApplet.parseInt(row.getString("mV"));
       // int c = int(row.getString("mA")); // curr not graphed yet
       // plot all table vals to the graph
       fill(255, 100, 100);  // fill circle w/ red
-      ellipse(60+m*3, 20+12850-v, 5, 5); // x=60+min*3, y=20+(12850-mV)
+      ellipse(60+m*3, 20+(12800-v)/2, 5, 5); // x=60+min*3, y=20+(12800-mV)/2
       // used to debug: show row #, data, tbl row count
       //     String what = "r "+ i + "  m " + m + "  rC " + volTab.getRowCount();
       //     fill(255);
@@ -132,7 +154,7 @@ void draw()   // redraw called by each incoming set of 3 vals
 // whenever the buffer reaches the byte value \n set in the bufferUntil() 
 // method in setup(): (presumably runs its own thread)
 
-void serialEvent(Serial myPort) // watch myPort for events
+public void serialEvent(Serial myPort) // watch myPort for events
 { 
   // read the serial buffer  -- must get exactly 3 numbers for table build to work
   String inputString = myPort.readString(); // was readStringUntil('\n') which
@@ -183,24 +205,16 @@ void serialEvent(Serial myPort) // watch myPort for events
 
 }  // end serialEvent
 
-void keyPressed()  // was if (keyPressed) in draw{}, same body actions
+public void keyPressed()  // was if (keyPressed) in draw{}, same body actions
 {                   // presume it runs in event thread
   // I use 's' to save data, exit; n to make new pt; z to clear graph
   // Win: 
   if (key == 's') { 
-    saveTable(volTab, "C:\\Users\\alexM\\Documents\\Processing\\Sketchbook\\SerialStringReader6\\data\\newV.csv"); 
+    saveTable(volTab, "C:\\Users\\alexM\\Documents\\Processing\\Sketchbook\\SerialStringReader7\\data\\newV.csv"); 
     exit();
   }
   // if (key == 's') { saveTable(volTab, "data/newV.csv"); exit(); } // ok for Mac; need full path for PC
 
-  //    if (key == 'n') // draw new point each time it's pressed
-  //      { 
-  //       stroke(0);  // draw data darker
-  //       ellipseMode(CENTER); // center on data pt
-  //       ellipse(counter*60+60,counter*40+50,7,7);
-  //       redraw(); // run draw loop once to make graph base, works here or above
-  //       counter++;
-  //      } // end if
   if (key == 'z')  // used to clear graph, now just --> redraw from stored data
   {
     // background(255);
@@ -210,3 +224,31 @@ void keyPressed()  // was if (keyPressed) in draw{}, same body actions
   else myPort.write(key);
   delay(100);  // avoids repeat reads of key & repeat sends by Ardu
 }  // end kP
+/*
+class for Table objects to hold time,volt,curr values
+*/
+
+public class VolTable extends Table
+ // do I need any instance vars? like date() to name it
+ // so far seems to get all meths from super, without invoking it
+ {
+ // constructor puts things in header row
+VolTable()  // could input params for customizing keys
+    {
+      //super(); // not sure what this gives me or if needed
+      addColumn("min");  // elapsed time
+      addColumn("mV");  // V reading in mV
+      addColumn("mA");  // curr reading in mA
+    
+    }  // end constr
+} // end class
+
+  static public void main(String[] passedArgs) {
+    String[] appletArgs = new String[] { "SerialStringReader7" };
+    if (passedArgs != null) {
+      PApplet.main(concat(appletArgs, passedArgs));
+    } else {
+      PApplet.main(appletArgs);
+    }
+  }
+}
