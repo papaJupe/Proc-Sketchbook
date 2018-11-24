@@ -1,11 +1,11 @@
 /**
  Basic demonstration of using a joystick.
  
- When this sketch runs it will try and find
- a game device that matches the configuration
- file 'MStick' if it can't match this device
+ When this sketch runs it will try to find a game device
+  that matches the configuration file 'MStick' in the sketch
+  data folder; if it can't match this device
  then it will present you with a list of devices
- you might try and use.
+ you might be able to use.
  
  The chosen device requires 2 sliders and 2 buttons.
  */
@@ -30,7 +30,7 @@ public void setup() {
   stick = control.getMatchedDevice("MStick");
   if (stick == null) {
     println("No suitable device configured");
-    System.exit(-1); // End the program NOW!
+    System.exit(-1); // End the program !
   }
   // Setup a function to trap events for this button
   stick.getButton("SHADOW").plug(this, "dropShadow", ControlIO.ON_RELEASE);

@@ -34,14 +34,14 @@ PFont f;            // to display text in window
 
 void setup() 
 {
-  size(930, 740); // make window size 90 px larger than graph
+  size(930, 690); // make window size 90 px larger than graph
 
   // make the Graph2D object,
   // arguments are : parent object, xsize, ysize, cross axes at zero pt
-  grph = new Graph2D(this, 840, 650, false);
+  grph = new Graph2D(this, 840, 600, false);
   // set properties of the X , Y Axes
-  grph.setYAxisMin(11.5f);  // voltage range
-  grph.setYAxisMax(12.8f);  // 650 px ht = 1300 mV, 2mv/px
+  grph.setYAxisMin(11.4f);  // voltage range
+  grph.setYAxisMax(12.6f);  // 600 px ht = 1200 mV, 2mv/px
   grph.setXAxisMin(0);  // time of dc
   grph.setXAxisMax(280); // 840 px/3 = 280 min, 3 px/min
   grph.setXAxisLabel("minutes");
@@ -105,7 +105,7 @@ void draw()   // redraw called by each incoming set of 3 vals
       // int c = int(row.getString("mA")); // curr not graphed yet
       // plot all table vals to the graph
       fill(255, 100, 100);  // fill circle w/ red
-      ellipse(60+m*3, 20+(12800-v)/2, 5, 5); // x=60+min*3, y=20+(12800-mV)/2
+      ellipse(60+m*3, 20+(12600-v)/2, 5, 5); // x=60+min*3, y=20+(12600-mV)/2
       // used to debug: show row #, data, tbl row count
       //     String what = "r "+ i + "  m " + m + "  rC " + volTab.getRowCount();
       //     fill(255);
