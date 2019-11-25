@@ -52,7 +52,7 @@ void setup()
   //println(Serial.list()); // prints (available) serial ports to console
 
   // table holds values as strings, needs header but no blank rows!
- volTab = loadTable("data/18-12-06ABC.csv", "header");
+ volTab = loadTable("data/2019delta1.csv", "header");
   background(255);
 }  // end setup
 

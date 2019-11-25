@@ -165,6 +165,9 @@ until it gets a linefeed (ASCII 10). Then trims spaces and returns,
 and graphs ints to app window. Uses: Serial, serialEvent,
 keyPressed,bufferUntil,readStringUntil,trim,drawGraph
 
+Serial String Table Load to display previous data from .csv file, overlay
+ of multiple runs, etc. for 12v batts disch
+ 
 Servo mega Tx Rx BT, control via BT I/O mod by AM for I/O w/ Ardu
     Mega + BT module, send bytes, get back ack; this mod sends u or d to
     control servo tilt, later mods add GUI, joystick button controls w/

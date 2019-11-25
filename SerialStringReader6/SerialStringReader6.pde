@@ -1,5 +1,5 @@
-/* 
- Serial String Reader 6 -- for Win32 export, use Serial.list[1], or portName="COM_" prn ?
+ /* 
+ Serial String Reader 6 -- for Win32+ use Serial.list[1-2], or portName="COM_" prn ?
  C:\\path for data save. With energia on PC this still works, COM11 is 2nd on list, i.e. [1]
  Pairs with Ardu's SensorReader4, voltSamp6, energia voltSamp, sending 3 int csv data strings 
  autonomously, or when it gets a char sent from Proc. KeyPressed code, if handshaking 
@@ -62,16 +62,16 @@ void setup()
   grph.setBackground(gb);
   grph.setXAxisLabelFont("Arial", 16, false);
   grph.setYAxisLabelFont("Arial", 16, false);
-  f = createFont("Arial", 14);
-  textFont(f);  // will be used for applet window text
+  f = createFont("Arial", 16);
+  textFont(f);  // used for applet window text
   println(Serial.list());   // prints (available) serial ports to console
 
   // get the # of your port from the serial.list
   // The first port in the serial list on my computer (mac) 
   // is generally the Arduino module, so I open Serial.list()[0].
-  // Use correct # for your machine, [1] on Win32 usually works
+  // Use correct # for your machine, [1] on Win32 [2] on Win64 usually works
 
-  String portName = Serial.list()[1];  // usually 0 for MacPro, 1 for PC & iMac
+  String portName = Serial.list()[2];  // usually 0 for MacPro, 1 for lenoPC,iMac,2 Dell
   // open the serial port:
   myPort = new Serial(this, portName, 9600); // speed must match Ardu/MSP's
   // applet can only seize port if not in use: +/- close Ardu/Energia IDE or set it
@@ -94,7 +94,7 @@ void draw()   // redraw called by each incoming set of 3 vals
   stroke(0);  // data pts will be filled circles
   ellipseMode(CENTER); // center on data pt
   // get vals by iterating over rows in table where they are stored
-  if ( volTab.getRowCount() > 1)   // may not need this condx, doesn't show 1st line
+  if ( volTab.getRowCount() >= 1)   // may not need this condx, doesn't show 1st line
   {
     for (int i = 0; i < volTab.getRowCount(); i++) // graph table vals
     {   // seems to start index and rowCnt @ vals not header
@@ -106,13 +106,22 @@ void draw()   // redraw called by each incoming set of 3 vals
       // plot all table vals to the graph
       fill(255, 100, 100);  // fill circle w/ red
       ellipse(60+m*3, 20+12850-v, 5, 5); // x=60+min*3, y=20+(12850-mV)
+      
       // used to debug: show row #, data, tbl row count
       //     String what = "r "+ i + "  m " + m + "  rC " + volTab.getRowCount();
       //     fill(255);
       //     rect(195,30,200,30); // white out small area 
       //     fill(0);
       //     text(what,200,50);
-    }  // end for loop over table vals
+      
+      // show battery description
+     String what = "2020 A, test 1";
+     fill(255);
+     rect(460,40,200,30); // white out small area 
+     fill(0);  //blk text
+     text(what,470,60);
+     
+    }  // end for loop over table valsmm
   }
 
     // display result string at top of applet graph if anything to show:
@@ -188,19 +197,19 @@ void keyPressed()  // was if (keyPressed) in draw{}, same body actions
   // I use 's' to save data, exit; n to make new pt; z to clear graph
   // Win: 
   if (key == 's') { 
-    saveTable(volTab, "C:\\Users\\alexM\\Documents\\Processing\\Sketchbook\\SerialStringReader6\\data\\newV.csv"); 
+    saveTable(volTab, "C:\\Users\\optiDell\\Documents\\Proc2-Sketchbook\\SerialStringReader6\\data\\newV.csv"); 
     exit();
   }
-  // if (key == 's') { saveTable(volTab, "data/newV.csv"); exit(); } // ok for Mac; need full path for PC
+// if (key == 's') { saveTable(volTab, "data/newV.csv"); exit(); } // ok for Mac; need full path for PC
 
-  //    if (key == 'n') // draw new point each time it's pressed
-  //      { 
-  //       stroke(0);  // draw data darker
-  //       ellipseMode(CENTER); // center on data pt
-  //       ellipse(counter*60+60,counter*40+50,7,7);
-  //       redraw(); // run draw loop once to make graph base, works here or above
-  //       counter++;
-  //      } // end if
+//    if (key == 'n') // draw new point each time it's pressed
+//      { 
+//       stroke(0);  // draw data darker
+//       ellipseMode(CENTER); // center on data pt
+//       ellipse(counter*60+60,counter*40+50,7,7);
+//       redraw(); // run draw loop once to make graph base, works here or above
+//       counter++;
+//      } // end if
   if (key == 'z')  // used to clear graph, now just --> redraw from stored data
   {
     // background(255);
